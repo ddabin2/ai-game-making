@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning by Making Games with AI</title>
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Fonts: pixel display font for headings, clean sans for body -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#25233a;
+    --paper:#faf7f0;
+    --violet:#6d5bd0;
+    --violet-dark:#4f3fb0;
+    --amber:#ffb84d;
+    --amber-dark:#e69a1f;
+    --mint:#54c6a3;
+  }
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background-color:var(--paper);
+    color:var(--ink);
+  }
+
+  .font-pixel{
+    font-family:'Press Start 2P', cursive;
+    line-height:1.6;
+  }
+
+  /* chunky "game UI" button: offset shadow that presses in on click */
+  .btn-game{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:.5rem;
+    border-radius:.9rem;
+    font-weight:700;
+    border:3px solid var(--ink);
+    box-shadow:4px 4px 0 var(--ink);
+    transition:transform .08s ease, box-shadow .08s ease;
+    white-space:nowrap;
+  }
+  .btn-game:hover{transform:translate(-1px,-1px); box-shadow:5px 5px 0 var(--ink);}
+  .btn-game:active{transform:translate(3px,3px); box-shadow:1px 1px 0 var(--ink);}
+
+  /* pixel-grid placeholder "screenshot" for lesson cards */
+  .pixel-screen{
+    background-image:
+      linear-gradient(rgba(255,255,255,.14) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.14) 1px, transparent 1px);
+    background-size:14px 14px;
+  }
+
+  ::selection{background:var(--amber); color:var(--ink);}
+</style>
+</head>
+
+<body class="antialiased">
+
+<!-- ============ NAV ============ -->
+<header class="sticky top-0 z-50 bg-[var(--paper)]/90 backdrop-blur border-b-4 border-[var(--ink)]">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2 font-pixel text-[10px] sm:text-xs text-[var(--violet-dark)]">
+      <span class="text-2xl">🕹️</span>
+      <span class="hidden sm:inline">AI GAME LAB</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
+      <a href="#intro" class="hover:text-[var(--violet-dark)] transition">Intro</a>
+      <a href="#lessons" class="hover:text-[var(--violet-dark)] transition">Lessons</a>
+      <a href="#result" class="hover:text-[var(--violet-dark)] transition">Result</a>
+      <a href="#contact" class="hover:text-[var(--violet-dark)] transition">Contact</a>
+    </nav>
+
+    <button id="menuBtn" class="md:hidden btn-game bg-[var(--amber)] px-3 py-2 text-sm" aria-label="Toggle menu">☰</button>
+  </div>
+
+  <!-- mobile menu -->
+  <div id="mobileMenu" class="hidden md:hidden border-t-4 border-[var(--ink)] bg-[var(--paper)]">
+    <nav class="flex flex-col p-4 gap-3 text-sm font-semibold">
+      <a href="#intro" class="py-1">Intro</a>
+      <a href="#lessons" class="py-1">Lessons</a>
+      <a href="#result" class="py-1">Result</a>
+      <a href="#contact" class="py-1">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="top" class="relative overflow-hidden bg-[var(--violet)] text-white">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-24 sm:py-32 text-center relative z-10">
+    <p class="font-pixel text-[9px] sm:text-[10px] tracking-widest text-[var(--amber)] mb-6">PRESS START</p>
+    <h1 class="font-pixel text-2xl sm:text-4xl md:text-5xl leading-relaxed mb-12">
+      Learning by Making<br class="hidden sm:block"> Games with AI
+    </h1>
+    <a href="#lessons" class="btn-game bg-[var(--amber)] text-[var(--ink)] px-7 py-3.5 text-base">
+      ▶ START
+    </a>
+  </div>
+
+  <div class="h-3 bg-[repeating-linear-gradient(90deg,var(--amber)_0,var(--amber)_16px,var(--mint)_16px,var(--mint)_32px)]"></div>
+</section>
+
+<!-- ============ INTRO ============ -->
+<section id="intro" class="max-w-4xl mx-auto px-5 sm:px-8 py-20">
+  <div class="flex items-center gap-3 mb-8">
+    <span class="text-2xl shrink-0">🕹️</span>
+    <h2 class="font-pixel text-lg sm:text-xl text-[var(--violet-dark)]">About the Curriculum</h2>
+  </div>
+  <div class="bg-white rounded-2xl border-3 border-[var(--ink)] shadow-[6px_6px_0_var(--ink)] p-6 sm:p-10">
+    <p class="text-base sm:text-lg leading-relaxed text-[var(--ink)]/90 mb-6">
+      This curriculum invites students to learn AI by building and playing games.
+    </p>
+    <ul class="space-y-3">
+      <li class="flex items-start gap-3 text-base sm:text-lg leading-relaxed text-[var(--ink)]/90">
+        <span class="mt-1.5 w-2.5 h-2.5 shrink-0 bg-[var(--violet)] border-2 border-[var(--ink)]"></span>
+        Design AI as a game character.
+      </li>
+      <li class="flex items-start gap-3 text-base sm:text-lg leading-relaxed text-[var(--ink)]/90">
+        <span class="mt-1.5 w-2.5 h-2.5 shrink-0 bg-[var(--mint)] border-2 border-[var(--ink)]"></span>
+        Learn how AI learns and the role humans play.
+      </li>
+      <li class="flex items-start gap-3 text-base sm:text-lg leading-relaxed text-[var(--ink)]/90">
+        <span class="mt-1.5 w-2.5 h-2.5 shrink-0 bg-[var(--amber)] border-2 border-[var(--ink)]"></span>
+        Learn how to collaborate with AI.
+      </li>
+      <li class="flex items-start gap-3 text-base sm:text-lg leading-relaxed text-[var(--ink)]/90">
+        <span class="mt-1.5 w-2.5 h-2.5 shrink-0 bg-[var(--violet)] border-2 border-[var(--ink)]"></span>
+        Become a young game designer.
+      </li>
+    </ul>
+
+    <div class="mt-10 pt-8 border-t-2 border-dashed border-[var(--ink)]/15">
+      <p class="font-pixel text-[9px] sm:text-[10px] tracking-widest text-[var(--violet-dark)] mb-4">STANDARD</p>
+      <ul class="space-y-3 mb-10">
+        <li class="flex items-start gap-3 text-base sm:text-lg leading-relaxed text-[var(--ink)]/90">
+          <span class="mt-1.5 w-2.5 h-2.5 shrink-0 bg-[var(--mint)] border-2 border-[var(--ink)]"></span>
+          Explore the types and forms of data that can be used in AI.
+        </li>
+        <li class="flex items-start gap-3 text-base sm:text-lg leading-relaxed text-[var(--ink)]/90">
+          <span class="mt-1.5 w-2.5 h-2.5 shrink-0 bg-[var(--amber)] border-2 border-[var(--ink)]"></span>
+          Experience the process by which AI is created, and explore the effects of AI on society.
+        </li>
+      </ul>
+
+      <p class="font-pixel text-[9px] sm:text-[10px] tracking-widest text-[var(--violet-dark)] mb-4">CURRICULUM MAP</p>
+      <div class="overflow-x-auto rounded-xl border-3 border-[var(--ink)]">
+        <table class="w-full min-w-[640px] border-collapse text-sm sm:text-base">
+          <thead>
+            <tr class="bg-[var(--violet)] text-white">
+              <th class="px-3 sm:px-4 py-3 text-left font-pixel text-[8px] sm:text-[9px] tracking-widest border-r-2 border-white/15 whitespace-nowrap">No.</th>
+              <th class="px-3 sm:px-4 py-3 text-left font-pixel text-[8px] sm:text-[9px] tracking-widest border-r-2 border-white/15">Topic</th>
+              <th class="px-3 sm:px-4 py-3 text-left font-pixel text-[8px] sm:text-[9px] tracking-widest border-r-2 border-white/15">Key Concept</th>
+              <th class="px-3 sm:px-4 py-3 text-left font-pixel text-[8px] sm:text-[9px] tracking-widest">Game Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd:bg-white even:bg-[var(--paper)] border-t-2 border-[var(--ink)]/10">
+              <td class="px-3 sm:px-4 py-3 align-top font-pixel text-[10px] text-[var(--violet-dark)]">1</td>
+              <td class="px-3 sm:px-4 py-3 align-top font-semibold text-[var(--ink)]">Designing Your AI Character</td>
+              <td class="px-3 sm:px-4 py-3 align-top text-[var(--ink)]/70">Human-in-the-loop</td>
+              <td class="px-3 sm:px-4 py-3 align-top text-[var(--ink)]/70">Students design their own AI sprite and build a scene that shows the role humans play in guiding it.</td>
+            </tr>
+            <tr class="odd:bg-white even:bg-[var(--paper)] border-t-2 border-[var(--ink)]/10">
+              <td class="px-3 sm:px-4 py-3 align-top font-pixel text-[10px] text-[var(--violet-dark)]">2</td>
+              <td class="px-3 sm:px-4 py-3 align-top font-semibold text-[var(--ink)]">Learning from Data</td>
+              <td class="px-3 sm:px-4 py-3 align-top text-[var(--ink)]/70">More data improves AI</td>
+              <td class="px-3 sm:px-4 py-3 align-top text-[var(--ink)]/70">Students feed data tokens to their AI sprite and watch how more data changes what it can do.</td>
+            </tr>
+            <tr class="odd:bg-white even:bg-[var(--paper)] border-t-2 border-[var(--ink)]/10">
+              <td class="px-3 sm:px-4 py-3 align-top font-pixel text-[10px] text-[var(--violet-dark)]">3</td>
+              <td class="px-3 sm:px-4 py-3 align-top font-semibold text-[var(--ink)]">Learning from Data</td>
+              <td class="px-3 sm:px-4 py-3 align-top text-[var(--ink)]/70">Data quality matters</td>
+              <td class="px-3 sm:px-4 py-3 align-top text-[var(--ink)]/70">Students sort good and bad data cards and build a game where data quality decides the outcome.</td>
+            </tr>
+            <tr class="odd:bg-white even:bg-[var(--paper)] border-t-2 border-[var(--ink)]/10">
+              <td class="px-3 sm:px-4 py-3 align-top font-pixel text-[10px] text-[var(--violet-dark)]">4</td>
+              <td class="px-3 sm:px-4 py-3 align-top font-semibold text-[var(--ink)]">How Generative AI works</td>
+              <td class="px-3 sm:px-4 py-3 align-top text-[var(--ink)]/70">Patterns → Prediction</td>
+              <td class="px-3 sm:px-4 py-3 align-top text-[var(--ink)]/70">Students build a word-guessing game, where the AI predicts answers based on patterns it finds.</td>
+            </tr>
+            <tr class="odd:bg-white even:bg-[var(--paper)] border-t-2 border-[var(--ink)]/10">
+              <td class="px-3 sm:px-4 py-3 align-top font-pixel text-[10px] text-[var(--violet-dark)]">5-6</td>
+              <td class="px-3 sm:px-4 py-3 align-top font-semibold text-[var(--ink)]">Co-intelligence</td>
+              <td class="px-3 sm:px-4 py-3 align-top text-[var(--ink)]/70">Human + AI collaboration</td>
+              <td class="px-3 sm:px-4 py-3 align-top text-[var(--ink)]/70">Students design a two-player scene where a human and an AI character team up to solve a task together.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LESSONS ============ -->
+<section id="lessons" class="bg-[var(--ink)] text-white">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-20">
+    <div class="text-center mb-14">
+      <p class="font-pixel text-[9px] sm:text-[10px] tracking-widest text-[var(--amber)] mb-4">LEVEL SELECT</p>
+      <h2 class="font-pixel text-xl sm:text-2xl">Lessons</h2>
+      <p class="mt-4 text-white/70 max-w-xl mx-auto text-sm sm:text-base">
+        Each lesson pairs a playable example game with guided planning materials.
+      </p>
+    </div>
+
+    <div id="lessonGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  </div>
+</section>
+
+<!-- ============ RESULT ============ -->
+<section id="result" class="bg-[var(--violet)]">
+  <div class="max-w-4xl mx-auto px-5 sm:px-8 py-20 text-center">
+    <h2 class="font-pixel text-lg sm:text-xl text-white mb-8">Result</h2>
+
+    <!-- TODO: 결과/성과 콘텐츠 채우기 (스크린샷, 데이터, 후기 등) -->
+    <div class="bg-white rounded-2xl border-3 border-dashed border-[var(--ink)]/40 p-6 sm:p-10 min-h-[220px] flex flex-col items-center justify-center text-center gap-3">
+      <p class="font-pixel text-[9px] sm:text-[10px] tracking-widest text-[var(--amber-dark)]">COMING SOON</p>
+      <ol class="text-[var(--ink)]/50 text-sm sm:text-base max-w-md w-full list-decimal list-inside text-left">
+        <li>AI literacy changes</li>
+        <li>Relationships</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="max-w-4xl mx-auto px-5 sm:px-8 py-20">
+  <div class="flex items-center gap-3 mb-8">
+    <span class="text-2xl shrink-0">🕹️</span>
+    <h2 class="font-pixel text-lg sm:text-xl text-[var(--violet-dark)]">Contact</h2>
+  </div>
+
+  <div class="bg-white rounded-2xl border-3 border-[var(--ink)] shadow-[6px_6px_0_var(--ink)] p-6 sm:p-10 flex flex-col sm:flex-row items-center gap-8">
+    <div class="w-20 h-20 shrink-0 rounded-xl bg-[var(--mint)] border-3 border-[var(--ink)] flex items-center justify-center text-4xl">
+      👩‍💻
+    </div>
+    <div class="text-center sm:text-left flex-1">
+      <h3 class="text-xl font-extrabold">Dabin Park</h3>
+      <p class="text-[var(--ink)]/70 mb-4">Ph.D. Student, Indiana University</p>
+      <a href="mailto:dabipark@iu.edu" class="btn-game bg-[var(--violet)] text-white px-5 py-2.5 text-sm">
+        ✉ dabipark@iu.edu
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t-4 border-[var(--ink)] py-8">
+  <p class="text-center text-xs text-[var(--ink)]/60 font-medium">
+    © 2026 Learning by Making Games with AI — Dabin Park, Indiana University
+  </p>
+</footer>
+
+<script>
+  // mobile menu toggle
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+  mobileMenu.querySelectorAll('a').forEach(link =>
+    link.addEventListener('click', () => mobileMenu.classList.add('hidden'))
+  );
+
+  /*
+   * Lesson data — TODO: replace placeholder values with your real content.
+   *   image     : path/URL to a representative screenshot for the lesson
+   *   gameUrl   : link to the playable example game for that session
+   *   lessonPlanUrl / worksheetUrl : paths to your downloadable PDFs
+   */
+  const lessons = [
+    { n: 1, title: "Designing Your AI Character", desc: "Create a personalized AI sprite in MakeCode Arcade.", image: "images/S1_image.png", gameUrl: "https://arcade.makecode.com/S56322-21963-13753-76170", lessonPlanUrl: "#", worksheetUrl: "#" },
+    { n: 2, title: "Learning from Data",          desc: "Discover that AI can improve with more data by training an AI sprite with data tokens.",                     image: "images/S2_image.png", gameUrl: "https://arcade.makecode.com/S11195-19997-71606-05892", lessonPlanUrl: "#", worksheetUrl: "#" },
+    { n: 3, title: "Good vs. Bad Example",        desc: "Explain why data quality matters by sorting good and bad data to train an AI sprite.",                     image: "images/S3_image.png", gameUrl: "https://arcade.makecode.com/S26777-48004-81208-43128", lessonPlanUrl: "#", worksheetUrl: "#" },
+    { n: 4, title: "How Does Gen AI Work?",       desc: "Understand how Gen AI predicts outputs by identifying and completing patterns in a word-guessing game.",       image: "images/S4_image.png", gameUrl: "https://arcade.makecode.com/S01303-27578-30783-02070", lessonPlanUrl: "#", worksheetUrl: "#" },
+    { n: 5, title: "Co-Intelligence",             desc: "Demonstrate that human + AI collaboration produces better results than either working alone.",             image: "images/S5_image.png", gameUrl: "https://arcade.makecode.com/S55407-69836-45207-46404", lessonPlanUrl: "#", worksheetUrl: "#" },
+    { n: 6, title: "Make Your Own Game with AI",  desc: "",                                                                                                          image: null, gameUrl: "https://arcade.makecode.com/", lessonPlanUrl: "#", worksheetUrl: "#", playLabel: "🔨 Build the Game" },
+
+  ];
+
+  const palette = ['bg-[var(--violet)]', 'bg-[var(--mint)]', 'bg-[var(--amber)]'];
+
+  const grid = document.getElementById('lessonGrid');
+
+  lessons.forEach((lesson, i) => {
+    const card = document.createElement('article');
+    card.className = "bg-[var(--paper)] text-[var(--ink)] rounded-2xl border-3 border-[var(--ink)] shadow-[6px_6px_0_rgba(0,0,0,0.5)] overflow-hidden flex flex-col";
+
+    const swatch = palette[i % palette.length];
+
+    const label = lesson.n === 6 ? "???" : `L${lesson.n}`;
+
+    card.innerHTML = `
+      <div class="pixel-screen ${swatch} h-36 relative flex items-center justify-center border-b-3 border-[var(--ink)] overflow-hidden">
+        ${lesson.image ? `<img src="${lesson.image}" alt="${lesson.title}" class="absolute inset-0 w-full h-full object-cover opacity-75">` : ''}
+        <span class="relative z-10 font-pixel text-white text-2xl drop-shadow-[2px_2px_0_rgba(0,0,0,0.4)]">${label}</span>
+      </div>
+
+      <div class="p-5 flex flex-col flex-1">
+        <p class="font-pixel text-[8px] text-[var(--violet-dark)] mb-2">SESSION ${lesson.n}</p>
+        <h3 class="font-bold text-lg mb-2">${lesson.title}</h3>
+        ${lesson.desc ? `<p class="text-sm text-[var(--ink)]/70 mb-5 flex-1">${lesson.desc}</p>` : `<div class="flex-1 mb-5"></div>`}
+
+        <div class="flex flex-col gap-2.5">
+          <a href="${lesson.gameUrl}" target="_blank" rel="noopener" class="btn-game bg-[var(--mint)] text-[var(--ink)] px-4 py-2.5 text-sm w-full">
+            ${lesson.playLabel || "▶ Play the Game"}
+          </a>
+          <div class="flex gap-2.5">
+            <a href="${lesson.lessonPlanUrl}" download class="btn-game bg-[var(--violet)] text-white px-3 py-2.5 text-xs flex-1">
+              📄 Lesson Plan
+            </a>
+            <a href="${lesson.worksheetUrl}" download class="btn-game bg-[var(--amber)] text-[var(--ink)] px-3 py-2.5 text-xs flex-1">
+              📝 Worksheet
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+</script>
+
+</body>
+</html>
